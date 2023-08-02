@@ -10,13 +10,19 @@ class ContactAdmin(admin.ModelAdmin):
                     'show', )
     list_display_links = ('id', 'first_name', 
                     'last_name', )
-    list_filter = ('created_date', )
+    list_filter = ('category', 'created_date', )
     search_fields = ('id', 'first_name', 
                     'last_name', 'phone', 
                     'email', )
-    ordering = ('id', )
+    ordering = ('-id', )
     list_per_page = 10
     list_editable = ('show', )
+    
+@admin.register(models.Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', )
+    list_display_links = list_display
+    ordering = ('-id', )
     
     
 
