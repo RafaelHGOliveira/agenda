@@ -6,8 +6,7 @@ from contact import models
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('id', 'first_name', 
                     'last_name', 'phone', 
-                    'email', 'created_date', 
-                    'show', )
+                    'email', 'show', )
     list_display_links = ('id', 'first_name', 
                     'last_name', )
     list_filter = ('category', 'created_date', )
