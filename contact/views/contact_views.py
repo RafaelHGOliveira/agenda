@@ -4,6 +4,7 @@ from django.db.models import Q
 from contact.models import Contact
 from django.http import Http404
 
+
 def index(request):
     contacts = Contact.objects \
         .filter(show=True)\
