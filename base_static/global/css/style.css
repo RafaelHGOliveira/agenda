@@ -253,13 +253,11 @@ svg {
   flex-direction: column;
   padding-bottom: var(--spacing);
 }
-
 .errorlist {
   list-style: none;
   font-size: var(--smaller-font-size);
   color: tomato;
 }
-
 .errorlist.nonfield {
   color: inherit;
 }
@@ -269,7 +267,7 @@ svg {
 }
 
 .form-group .help-text,
-.form-group .help-text~ul {
+.form-group .help-text ~ ul {
   margin: 0;
   font-size: var(--smallest-font-size);
   list-style: none;
@@ -313,4 +311,24 @@ svg {
 .btn:active {
   filter: brightness(80%);
   box-shadow: 0 0 5px var(--link-dark-color);
+}
+
+.contact-links {
+  margin-block: calc(var(--small-font-size) * 2);
+  display: flex;
+  align-items: center;
+  gap: 0 var(--spacing);
+}
+
+.btn-link {
+  font-size: var(--small-font-size);
+  text-decoration: none;
+  font-weight: bold;
+  padding: 1rem;
+  display: block;
+  line-height: var(--small-font-size);
+}
+
+.btn-delete {
+  background: tomato;
 }
