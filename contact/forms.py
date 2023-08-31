@@ -1,6 +1,9 @@
 from contact.models import Contact
 from django import forms
 from django.forms import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
 
 
 class ContactForm(forms.ModelForm):
@@ -17,7 +20,7 @@ class ContactForm(forms.ModelForm):
     picture = forms.ImageField(
         widget=forms.FileInput(
             attrs={
-                'accept': 'image/*',
+                'accept': 'image/*'
             }
         )
     )
@@ -66,3 +69,32 @@ class ContactForm(forms.ModelForm):
             )
         
         return first_name
+
+
+class RegisterForm(UserCreationForm):
+    first_name = forms.CharField(required=True)
+    last_name = forms.CharField(required=True)
+    
+    # Editing firlds used on default user creation form
+    class Meta():
+        model = User
+        fields = (
+            'first_name', 'last_name', 'email',
+            'username', 'password1', 'password2',
+        )
+    
+    
+    # Check if email is already been used
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        
+        if User.objects.filter(email=email).exists():
+            self.add_error(
+                'email',
+                ValidationError(
+                    'The email is already being used',
+                    code='invalid'
+                )
+            )
+        
+        return email

@@ -3,12 +3,11 @@
 
   <div class="form-wrapper">
     
-    <h2>Contact</h2>
+    <h2>Register</h2>
     
     <form 
         action="{{ form_action }}"
         method="POST"
-        enctype="multipart/form-data"
     >
         {% csrf_token %}
 
@@ -26,20 +25,13 @@
 
                 </div>
 
-                {% if field.name == 'picture' and field.value.url %}
-                    <div class="form-group">
-                        <p>
-                            <img src="{{ field.value.url }}" alt="">
-                        </p>
-                    </div>
-                {% endif %}
-
             {% endfor %}
+            
         </div>
 
         <div class="form-content">
             <div class="form-group">
-                <button class="btn" type="submit">Send</button>
+                <button class="btn" type="submit">Save</button>
             </div>
         </div>
 
