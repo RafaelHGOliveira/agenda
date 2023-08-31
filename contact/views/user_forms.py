@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from contact.forms import RegisterForm
-
+from django.contrib import messages
 
 
 def register(request):
@@ -12,8 +12,11 @@ def register(request):
         
         if form.is_valid():
             form.save()
-            
-            return redirect('contact:contact')
+            messages.success(
+                request,
+                'User registered',
+            )
+            return redirect('contact:index')
     
     context = {
         'form': form,
