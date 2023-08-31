@@ -14,30 +14,22 @@ class ContactForm(forms.ModelForm):
         # help_text = 'teste help test',
         )
     
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        
-        # Changing plaholder 
-        # without recreating TextInput widget
-        # self.fields['first_name'].widget.attrs.update({
-        #     'placeholder': 'first name',
-        # })
+    picture = forms.ImageField(
+        widget=forms.FileInput(
+            attrs={
+                'accept': 'image/*',
+            }
+        )
+    )
     
     class Meta:
         model = Contact
         fields = (
             'first_name', 'last_name', 'phone',
             'email', 'description', 'category',
-            # 'picture',
+            'picture',
         )
         
-        # widgets = {
-        #     'first_name': forms.TextInput(
-        #         attrs={
-        #             'placeholder': 'first name',
-        #         }
-        #         ),
-        # }
     
     # Better to verify multiple fields
     def clean(self):
@@ -59,14 +51,6 @@ class ContactForm(forms.ModelForm):
                 'last_name',
                 msg,
             )
-
-        # self.add_error(
-        #     'first_name',
-        #     ValidationError(
-        #         'Erro',
-        #         code='invalid',
-        #     )
-        # )
         
         return super().clean()
     
