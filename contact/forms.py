@@ -3,6 +3,7 @@ from django import forms
 from django.forms import ValidationError
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
+from django.contrib.auth import password_validation
 
 
 
@@ -98,3 +99,114 @@ class RegisterForm(UserCreationForm):
             )
         
         return email
+
+class RegisterUpdateForm(forms.ModelForm):
+    first_name = forms.CharField(
+        min_length=2,
+        max_length=30,
+        required=True,
+        help_text='Required.',
+        error_messages={
+            'min_length': 'Please, add more than 2 letters.'
+        }
+    )
+    last_name = forms.CharField(
+        min_length=2,
+        max_length=30,
+        required=True,
+        help_text='Required.',
+        error_messages={
+            'min_length': 'Please, add more than 2 letters.'
+        }
+    )
+    
+    password1 = forms.CharField(
+        label='password',
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        help_text=password_validation.password_validators_help_text_html(),
+        required=False,
+    )
+    password2 = forms.CharField(
+        label='password',
+        strip=False,
+        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        help_text=password_validation.password_validators_help_text_html(),
+        required=False,
+    )
+    
+    class Meta():
+        model = User
+        fields = (
+            'first_name', 'last_name', 'email',
+            'username',
+        )
+        
+    # Overriding save function to save password
+    # in case of change
+    def save(self, commit=True):
+        cleaned_data = self.cleaned_data
+        user = super().save(commit=False)
+        
+        password1 = cleaned_data.get('password1')
+        
+        if password1:
+            user.set_password(password1)
+        
+        if commit:
+            user.save()
+            
+        return user
+        
+    # overriding clean to check if passwords match
+    def clean(self):
+        password1 = self.cleaned_data.get('password1')
+        password2 = self.cleaned_data.get('password2')
+
+        if password1 or password2:
+            if password1 != password2:
+                self.add_error(
+                    'password2',
+                    ValidationError(
+                        'Passwords dont match',
+                    )
+                )
+
+        return super().clean()
+        
+    
+    # Check if email is already been used
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        current_email = self.instance.email
+        
+        # Checking if its not te same as the old email
+        if current_email != email:
+            if User.objects.filter(email=email).exists():
+                self.add_error(
+                    'email',
+                    ValidationError(
+                        'The email is already being used',
+                        code='invalid',
+                    )
+                )
+        
+        return email
+    
+    # Checking if its a strong password
+    def clean_password1(self):
+        password1 = self.cleaned_data.get('password1')
+        
+        if password1:
+           try:
+               password_validation.validate_password(password1)
+           except ValidationError as errors:
+               self.add_error(
+                   'password1',
+                   ValidationError(
+                       errors,
+                    ),
+               )
+            
+            
+        return password1

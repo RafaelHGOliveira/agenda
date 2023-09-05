@@ -1,15 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from contact.forms import RegisterForm
+from contact.forms import RegisterForm, RegisterUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
 
 
 def register(request):
-    
     if request.method == 'GET':
         form = RegisterForm()
-    
     
     if request.method == 'POST':
         form = RegisterForm(request.POST)
@@ -33,6 +31,34 @@ def register(request):
         context,
     )
     
+def user_update(request):
+    
+    if request.method == 'GET':
+        context = {
+            'form': RegisterUpdateForm(instance=request.user),
+        }
+        
+    if request.method == 'POST':
+        
+        form = RegisterUpdateForm(
+                    data=request.POST, 
+                    instance=request.user
+                )
+        context = {
+            'form': form,
+        }
+        if form.is_valid():
+            form.save()
+            return redirect(
+                'contact:user_update',
+            )
+            
+    return render(
+        request,
+        'contact/user_update.html',
+        context,
+    )
+        
     
 def login_view(request):
     
