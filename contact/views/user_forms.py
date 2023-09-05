@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from contact.forms import RegisterForm, RegisterUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import auth
+from django.contrib.auth.decorators import login_required
+
+from contact.forms import RegisterForm, RegisterUpdateForm
 
 
 def register(request):
@@ -30,7 +32,8 @@ def register(request):
         'contact/register.html',
         context,
     )
-    
+
+@login_required(login_url='contact:login')
 def user_update(request):
     
     if request.method == 'GET':
@@ -58,7 +61,6 @@ def user_update(request):
         'contact/user_update.html',
         context,
     )
-        
     
 def login_view(request):
     
@@ -94,7 +96,8 @@ def login_view(request):
         'contact/login.html',
         context,
     )
-    
+
+@login_required(login_url='contact:login')
 def logout_view(request):
     auth.logout(request)
     return redirect('contact:login')
