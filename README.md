@@ -2,11 +2,10 @@
 
 # agenda
 
-Simple web directory system, using function-based view.
+Simple agenda web system, using django function-based view.
 
 # Features:
-* User registration.
-* Login and Logout.
-* Contact CRUD and Contact Category CRUD (via Django Admin).
-* Contacts query and search.
+* User CRUD.
+* Contact CRUD
 * Contact details page.
+* Django Admin.
