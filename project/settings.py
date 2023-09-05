@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-y6pl^kib3u*z6+su5omwi*f$gf82c3%ymq$gudluo%v+ba=vnq
 DEBUG = False
 
 ALLOWED_HOSTS = ['https://agenda-rafaelh9six.up.railway.app']
-# CSRF_TRUSTED_ORIGINS = ['https://agenda-rafaelh9six.up.railway.app']
+CSRF_TRUSTED_ORIGINS = ['https://agenda-rafaelh9six.up.railway.app']
 
 # Application definition
 
