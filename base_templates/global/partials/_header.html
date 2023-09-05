@@ -45,6 +45,7 @@
                 action="{% url 'contact:search' %}" 
                 method="GET"
             >
+            {% csrf_token %}
                 <input 
                     type="search" 
                     class="search-input"
