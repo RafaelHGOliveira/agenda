@@ -3,12 +3,15 @@ from django.core.paginator import Paginator
 from django.db.models import Q
 from contact.models import Contact
 from django.http import Http404
+from django.contrib.auth.decorators import login_required
 
 
+@login_required(login_url='contact:login')
 def index(request):
     contacts = Contact.objects \
         .filter(show=True)\
-            .order_by('-id')
+            .filter(owner=request.user,)\
+                .order_by('-id')
             
     paginator = Paginator(contacts, 10)
     page_number = request.GET.get('page')
@@ -24,7 +27,8 @@ def index(request):
         'contact/index.html',
         context
     )
-    
+
+@login_required(login_url='contact:login')
 def search(request):
     search_value = request.GET.get('q', '').strip()
     
@@ -40,7 +44,8 @@ def search(request):
                 Q(phone__icontains=search_value) |
                 Q(email__icontains=search_value)
             ) \
-                .order_by('-id')
+                .filter(owner=request.user,)\
+                    .order_by('-id')
             
     paginator = Paginator(contacts, 10)
     page_number = request.GET.get('page')
@@ -57,15 +62,16 @@ def search(request):
         context
     )
     
-    
+@login_required(login_url='contact:login')
 def contact(request, contact_id):
     # single_contact = Contact.objects.filter(pk=contact_id).first()
-    
     single_contact = get_object_or_404(
         Contact, 
         pk=contact_id,
-        show=True
+        show=True,
+        owner=request.user,
     )
+
     site_title = f'{single_contact.first_name} {single_contact.last_name} - '
     
     context = {
