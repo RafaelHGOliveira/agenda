@@ -39,20 +39,22 @@
         </ul>
     </nav>
 
-    <div class="search">
-        <form 
-            action="{% url 'contact:search' %}" 
-            method="GET"
-        >
-            <input 
-                type="search" 
-                class="search-input"
-                placeholder="Search"
-                id="search"
-                name="q"
-                value="{{ request.GET.q.strip }}"
+    {% if user.is_authenticated %}
+        <div class="search">
+            <form 
+                action="{% url 'contact:search' %}" 
+                method="GET"
             >
-        </form>
-    </div>
+                <input 
+                    type="search" 
+                    class="search-input"
+                    placeholder="Search"
+                    id="search"
+                    name="q"
+                    value="{{ request.GET.q.strip }}"
+                >
+            </form>
+        </div>
+    {% endif %}
 
 </header>
