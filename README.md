@@ -1,5 +1,3 @@
-## ⚠️ Work in Progress
-
 # agenda
 
 Simple agenda web system, using django function-based view.
