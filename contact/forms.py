@@ -6,7 +6,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import password_validation
 
 
-
 class ContactForm(forms.ModelForm):
     first_name = forms.CharField(
         widget=forms.TextInput(
@@ -19,6 +18,7 @@ class ContactForm(forms.ModelForm):
         )
     
     picture = forms.ImageField(
+        required=False,
         widget=forms.FileInput(
             attrs={
                 'accept': 'image/*'
@@ -70,7 +70,6 @@ class ContactForm(forms.ModelForm):
             )
         
         return first_name
-
 
 class RegisterForm(UserCreationForm):
     first_name = forms.CharField(required=True)
@@ -147,7 +146,6 @@ class RegisterUpdateForm(forms.ModelForm):
     def save(self, commit=True):
         cleaned_data = self.cleaned_data
         user = super().save(commit=False)
-        
         password1 = cleaned_data.get('password1')
         
         if password1:
