@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
 class Category(models.Model):
     class Meta:
         verbose_name = 'Category'
@@ -24,12 +23,14 @@ class Contact(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.SET_NULL,
-        blank=True, null=True
+        blank=True, 
+        null=True,
     )
     owner = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
-        blank=True, null=True
+        blank=True, 
+        null=True,
     )
     
     def __str__(self) -> str:

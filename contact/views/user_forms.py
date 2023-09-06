@@ -45,7 +45,7 @@ def user_update(request):
         
         form = RegisterUpdateForm(
                     data=request.POST, 
-                    instance=request.user
+                    instance=request.user,
                 )
         context = {
             'form': form,
