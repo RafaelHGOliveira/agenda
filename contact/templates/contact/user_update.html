@@ -5,7 +5,11 @@
     
     <h2>Update User</h2>
     
-    {% include 'contact/partials/_user-form.html' %}
+    {% if user.username == 'test' %}
+      <p>This account is just for testing, updating this profile is disabled.</p>
+    {% else %}
+      {% include 'contact/partials/_user-form.html' %}
+    {% endif %}
     
     </div>
 
